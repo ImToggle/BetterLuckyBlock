@@ -22,6 +22,7 @@ public class BlockRendererDispatcherMixin {
 
     @Inject(method = "getModelFromBlockState", at = @At("HEAD"), cancellable = true)
     private void custom(IBlockState state, IBlockAccess worldIn, BlockPos pos, CallbackInfoReturnable<IBakedModel> cir) {
+        if (state == null) return;
         if (ModConfig.INSTANCE.enabled && BetterLuckyBlock.INSTANCE.isLucky(Minecraft.getMinecraft().theWorld.getBlockState(pos))) {
             cir.setReturnValue(BetterLuckyBlock.INSTANCE.getLuckyModelByState(blockModelShapes.getModelManager(), state));
         }

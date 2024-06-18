@@ -74,8 +74,9 @@ object BetterLuckyBlock {
         val aabb = with(blockPos) {
             AxisAlignedBB(x.toDouble(), y.toDouble(), z.toDouble(), x.toDouble() + 1, y.toDouble() + 1, z.toDouble() + 1)
         }
-        val entity = mc.theWorld.getEntitiesWithinAABB(EntityArmorStand::class.java, aabb).filter { it.posY == blockPos.y - 1.21875 }.getOrNull(0)
-            ?: return false
+        val entities = mc.theWorld.getEntitiesWithinAABB(EntityArmorStand::class.java, aabb)
+        if (entities.isEmpty()) return false
+        val entity = entities.filter { it.posY == blockPos.y - 1.21875 }.getOrNull(0) ?: return false
         val itemStack = entity.getCurrentArmor(3) ?: return false
 
         return itemStack.isLuckySkull()
