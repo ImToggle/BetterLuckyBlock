@@ -1,0 +1,9 @@
+{
+  "variants": {
+    "orange": { "model": "betterluckyblock:lucky_block_normal" },
+    "blue": { "model": "betterluckyblock:lucky_block_promising" },
+    "green": { "model": "betterluckyblock:lucky_block_fortunate" },
+    "black": { "model": "betterluckyblock:lucky_block_offensive" },
+    "red": { "model": "betterluckyblock:lucky_block_miracle" }
+  }
+}

@@ -23,11 +23,6 @@ val mod_version: String by project
 val mod_id: String by project
 val mod_archives_name: String by project
 
-// Sets up the variables for when we preprocess to other Minecraft versions.
-preprocess {
-    vars.put("MODERN", if (project.platform.mcMinor >= 16) 1 else 0)
-}
-
 // Replaces the variables in `ExampleMod.java` to the ones specified in `gradle.properties`.
 blossom {
     replaceToken("@VER@", mod_version)
@@ -82,7 +77,10 @@ val modShade: Configuration by configurations.creating {
 
 // Configures the output directory for when building from the `src/resources` directory.
 sourceSets {
+    val dummy by creating
     main {
+        dummy.compileClasspath += compileClasspath
+        compileClasspath += dummy.output
         output.setResourcesDir(java.classesDirectory)
     }
 }
@@ -94,8 +92,11 @@ repositories {
 
 // Configures the libraries/dependencies for your mod.
 dependencies {
+//    implementation(files("/libs/Optifine.jar"))
     // Adds the OneConfig library, so we can develop with it.
     modCompileOnly("cc.polyfrost:oneconfig-$platform:0.2.2-alpha+")
+
+    modCompileOnly("cc.polyfrost:universalcraft-$platform:247")
 
     modRuntimeOnly("me.djtheredstoner:DevAuth-${if (platform.isFabric) "fabric" else if (platform.isLegacyForge) "forge-legacy" else "forge-latest"}:1.2.0")
 
