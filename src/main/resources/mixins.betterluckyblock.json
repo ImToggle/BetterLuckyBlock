@@ -8,14 +8,11 @@
   },
   "verbose": true,
   "client": [
-    "BlockBreakableMixin",
-    "BlockModelShapesMixin",
-    "BlockRendererDispatcherMixin",
-    "EffectRendererMixin",
     "ItemModelMesherMixin",
-    "ModelLoaderMixin"
+    "RenderChunkMixin"
   ],
   "mixins": [
+    "BlockMixin",
     "BlockModelCustomizerMixin",
     "BlockStainedGlassMixin",
     "WorldMixin"

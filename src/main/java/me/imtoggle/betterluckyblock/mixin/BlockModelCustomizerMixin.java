@@ -1,9 +1,7 @@
 package me.imtoggle.betterluckyblock.mixin;
 
-import me.imtoggle.betterluckyblock.ModConfig;
-import me.imtoggle.betterluckyblock.BetterLuckyBlock;
+import me.imtoggle.betterluckyblock.HooksKt;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -23,12 +21,10 @@ import java.util.List;
 @Pseudo
 @Mixin(value = BlockModelCustomizer.class, remap = false)
 public class BlockModelCustomizerMixin {
-
     @Dynamic("Optifine")
     @Inject(method = "getRenderQuads", at = @At("HEAD"), cancellable = true)
     private static void optifine(List<BakedQuad> quads, IBlockAccess worldIn, IBlockState stateIn, BlockPos posIn, EnumFacing enumfacing, EnumWorldBlockLayer layer, long rand, RenderEnv renderEnv, CallbackInfoReturnable<List<BakedQuad>> cir) {
-        if (ModConfig.INSTANCE.enabled && BetterLuckyBlock.INSTANCE.isLucky(Minecraft.getMinecraft().theWorld.getBlockState(posIn))) {
-            cir.setReturnValue(quads);
-        }
+        if (!HooksKt.isLuckyBlock(posIn)) return;
+        cir.setReturnValue(quads);
     }
 }
