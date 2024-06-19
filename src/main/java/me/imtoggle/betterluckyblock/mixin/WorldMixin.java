@@ -14,7 +14,7 @@ public abstract class WorldMixin {
     @Inject(method = "getBlockState", at = @At(value = "RETURN"), cancellable = true)
     private void overrideState(BlockPos pos, CallbackInfoReturnable<IBlockState> cir) {
         IBlockState state = cir.getReturnValue();
-        if (!HooksKt.isLuckyBlock(pos, state)) return;
+        if (!HooksKt.worldIsLuckyBlock(pos, state)) return;
         cir.setReturnValue(state.withProperty(HooksKt.getLUCKY(), true));
     }
 }

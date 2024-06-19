@@ -7,9 +7,7 @@ import cc.polyfrost.oneconfig.libs.eventbus.Subscribe
 import cc.polyfrost.oneconfig.utils.dsl.mc
 import net.minecraft.block.BlockColored
 import net.minecraft.client.renderer.block.statemap.StateMap
-import net.minecraft.client.resources.model.ModelResourceLocation
 import net.minecraft.init.Blocks
-import net.minecraft.item.EnumDyeColor
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
@@ -23,14 +21,13 @@ object BetterLuckyBlock {
 
     private var lastEnabled = false
 
-    private val valid = listOf(EnumDyeColor.ORANGE, EnumDyeColor.BLUE, EnumDyeColor.GREEN, EnumDyeColor.BLACK, EnumDyeColor.RED)
     @Mod.EventHandler
     fun onPreInit(event: FMLPreInitializationEvent) {
         ModelLoader.setCustomStateMapper(Blocks.stained_glass) { block ->
             val map = StateMap.Builder().withName(BlockColored.COLOR).withSuffix("_stained_glass").ignore(LUCKY).build().putStateModelLocations(block)
             block.blockState.validStates
-                .filter { it.getValue(LUCKY) && it.getValue(BlockColored.COLOR) in valid }
-                .associateWithTo(map) { ModelResourceLocation("$MODID:luckyblock", it.getValue(BlockColored.COLOR).getName()) }
+                .filter { it.getValue(LUCKY) && it.getValue(BlockColored.COLOR) in colorMap.values }
+                .associateWithTo(map) { getModelPath(it.getValue(BlockColored.COLOR)) }
         }
     }
 
